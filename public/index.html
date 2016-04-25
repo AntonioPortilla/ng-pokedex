@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="pokedex">
+<head>
+	<meta charset="UTF-8">
+	<title>Pokemon new</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+	<div class="pokemon" ng-controller="PokemonController as pokeCtrl">
+		<h1>{{ pokeCtrl.pokemon.name }} #{{ pokeCtrl.pokemon.id }}</h1>
+		<h2>{{ pokeCtrl.pokemon.specie }}</h2>
+		<img src="images/pokemons/{{ pokeCtrl.pokemon.name }}.jpg" alt="">
+		<ul>
+			<li>Tipo: {{ pokeCtrl.pokemon.type.join(' | ') }}</li>
+			<li>Width: {{ pokeCtrl.pokemon.width }}</li>
+			<li>Height: {{ pokeCtrl.pokemon.height }}</li>
+			<li>Habilidad: {{ pokeCtrl.pokemon.abilities.join(', ') }}</li>
+		</ul>
+	</div>
+	<pre>
+		{{ 'cadena de texto' }}
+		{{ alert('Hola mundo') }}
+	</pre>
+	<script src="js/lib/underscore-min.js"></script>
+	<script src="js/lib/angular.min.js"></script>
+	<script src="js/lib/angular-route.min.js"></script>
+	<script src="js/app.js"></script>
+</body>
+</html>
