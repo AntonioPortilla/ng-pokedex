@@ -6,12 +6,6 @@ A simple Pokédex built with Angular.js
 
 ### Pokémon
 
-#IMPORTANTE
-Instalar componente chrome LiveReload, para ver los cambios en tiempo real
->> vim app.js
->> ESC + :w = guardar
->> ESC + :q = salir
-
 Pokémon images, names and information (c) 1995-2014 Nintendo/Game freak.
 
 Images and content were taken from the following resources:

@@ -5,25 +5,150 @@
 	<title>Pokemon new</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme-cerulean.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Pokedex</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
 	<div class="pokemon" ng-controller="PokemonController as pokeCtrl">
-		<h1>{{ pokeCtrl.pokemon.name }} #{{ pokeCtrl.pokemon.id }}</h1>
-		<h2>{{ pokeCtrl.pokemon.specie }}</h2>
-		<img src="images/pokemons/{{ pokeCtrl.pokemon.name }}.jpg" alt="">
-		<ul>
-			<li>Tipo: {{ pokeCtrl.pokemon.type.join(' | ') }}</li>
-			<li>Width: {{ pokeCtrl.pokemon.width }}</li>
-			<li>Height: {{ pokeCtrl.pokemon.height }}</li>
-			<li>Habilidad: {{ pokeCtrl.pokemon.abilities.join(', ') }}</li>
-		</ul>
+		<div class="page-header">
+			<h1>
+				{{ pokeCtrl.pokemon.name | uppercase }} 
+				<small>{{ pokeCtrl.pokemon.specie | lowercase }}</small>
+				<span class="label label-primary pull-right">#{{ pokeCtrl.pokemon.id }}</span>
+			</h1>
+		</div>	
+		<div class="row">
+			<div class="col-md-6">
+				<img class="avatar center-block" ng-src="images/pokemons/{{ pokeCtrl.pokemon.name | lowercase }}.jpg" alt="pokemon">
+			</div>
+			<div ng-controller="TabsController as tabs" class="col-md-6">
+				<ul class="nav nav-tabs nav-justified">
+					<li ng-class="{ active : tabs.tab === 1 }"><a ng-click="tabs.selectTab(1)">Pokedex</a></li>
+					<li ng-class="{ active : tabs.tab === 2 }"><a ng-click="tabs.selectTab(2)">Estadísticas</a></li>
+					<li ng-class="{ active : tabs.tab === 3 }"><a ng-click="tabs.selectTab(3)">Evolución</a></li>
+				</ul>
+				<div class="tab-content">
+					<div ng-show="tabs.tab === 1">
+						<ul class="list-group">
+							<li class="list-group-item">
+								<strong>Tipo</strong>
+								<span class="pull-right">
+									<span ng-repeat="type in pokeCtrl.pokemon.type" class="label label-success type type-{{ type | lowercase }}">{{ type }}</span>
+								</span>
+							</li>
+							<li class="list-group-item">
+								<strong>Width</strong>
+								<span class="pull-right">
+									{{ pokeCtrl.pokemon.width }}
+								</span>
+							</li>
+							<li class="list-group-item">
+								<strong>Height</strong>
+								<span class="pull-right">
+									{{ pokeCtrl.pokemon.height }}
+								</span>
+							</li>
+							<li class="list-group-item">
+								<strong>Habilidad</strong>
+								<span class="pull-right">
+									{{ pokeCtrl.pokemon.abilities | limitTo:2 }}
+								</span>
+							</li>
+						</ul> 
+					</div>
+					<div ng-show="tabs.tab === 2">
+						<ul class="list-group">
+							<li class="list-group-item">
+								<strong>HP</strong>
+								<span class="pull-right">{{ pokeCtrl.pokemon.stats.hp }}</span>
+							</li>
+							<li class="list-group-item">
+								<strong>Ataque</strong>
+								<span class="pull-right">{{ pokeCtrl.pokemon.stats.attack }}</span>
+							</li>
+							<li class="list-group-item">
+								<strong>Defensa</strong>
+								<span class="pull-right">{{ pokeCtrl.pokemon.stats.defense }}</span>
+							</li>
+							<li class="list-group-item">
+								<strong>Ataque Especial</strong>
+								<span class="pull-right">{{ pokeCtrl.pokemon.stats['sp.atk'] }}</span>
+							</li>
+							<li class="list-group-item">
+								<strong>Defensa Especial</strong>
+								<span class="pull-right">{{ pokeCtrl.pokemon.stats['sp.def'] }}</span>
+							</li>
+							<li class="list-group-item">
+								<strong>Velocidad</strong>
+								<span class="pull-right">{{ pokeCtrl.pokemon.stats.speed }}</span>
+							</li>
+							<li class="list-group-item">
+								<strong>Total</strong>
+								<span class="pull-right">{{ pokeCtrl.pokemon.stats.total }}</span>
+							</li>
+						</ul>
+					</div>
+					<div ng-show="tabs.tab === 3">
+						<div class="text-center" ng-repeat="pokemon in pokeCtrl.pokemon.evolution">
+							<a href="#">
+								<img src="images/pokemons/{{ pokemon | lowercase }}.jpg" alt="{{ pokemon }}">
+								<p>
+									<strong>{{ pokemon }}</strong>
+								</p>
+							</a>
+							<span ng-hide="$last" class="glyphicon glyphicon-arrow-down"></span>
+							<span ng-show="$last" class="glyphicon glyphicon-arrow-up">Subir</span>
+						</div>
+					</div>
+					<div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<pre>
-		{{ 'cadena de texto' }}
-		{{ alert('Hola mundo') }}
-	</pre>
+</div>
 	<script src="js/lib/underscore-min.js"></script>
 	<script src="js/lib/angular.min.js"></script>
 	<script src="js/lib/angular-route.min.js"></script>
