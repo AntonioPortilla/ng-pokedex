@@ -31,7 +31,36 @@
 
 		this.selectTab = function(tab){
 			this.tab = tab;
-		}
-	})
+		};
+	});
+
+	app.controller('CommentsController', function(){
+		this.comments = [];
+		this.comment = {}; //objeto literal de javascript
+		this.show = false;
+
+		this.toggle = function(){
+			this.show = !this.show; //boleano
+		};
+
+		this.anonymousChanged = function(){
+			if(this.comment.anonymous){
+				this.comment.email = "";
+			};
+		};
+
+		this.addComment = function(){
+			this.comment.date = Date.now();
+			this.comments.push(this.comment);
+			this.comment = {}; //limpiar o setear los comoentarios
+		};
+	});
+
+	app.filter('imageify', function(){
+		return function(input){
+			var url = "images/pokemons/" + input.toLowerCase() + ".jpg";
+			return url;
+		};
+	});
 
 })();

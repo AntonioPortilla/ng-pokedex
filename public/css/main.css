@@ -139,11 +139,11 @@
   font-size: 22px;
 }
 .ng-invalid.ng-dirty {
-  border-color: #D9230F;
+  border: 2px solid #D9230F;
 }
 
 .ng-valid.ng-dirty {
-  border-color: #468847;
+  border: 2px solid  #468847;
 }
 
 /*fin de clases del ejemplo*/

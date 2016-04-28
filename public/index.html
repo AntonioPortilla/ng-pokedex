@@ -54,14 +54,14 @@
 	<div class="pokemon" ng-controller="PokemonController as pokeCtrl">
 		<div class="page-header">
 			<h1>
-				{{ pokeCtrl.pokemon.name | uppercase }} 
+				{{ pokeCtrl.pokemon.name | uppercase }}
 				<small>{{ pokeCtrl.pokemon.specie | lowercase }}</small>
 				<span class="label label-primary pull-right">#{{ pokeCtrl.pokemon.id }}</span>
 			</h1>
-		</div>	
+		</div>
 		<div class="row">
 			<div class="col-md-6">
-				<img class="avatar center-block" ng-src="images/pokemons/{{ pokeCtrl.pokemon.name | lowercase }}.jpg" alt="pokemon">
+				<img class="avatar center-block" ng-src="{{ pokeCtrl.pokemon.name | imageify }}" alt="pokemon">
 			</div>
 			<div ng-controller="TabsController as tabs" class="col-md-6">
 				<ul class="nav nav-tabs nav-justified">
@@ -96,7 +96,7 @@
 									{{ pokeCtrl.pokemon.abilities | limitTo:2 }}
 								</span>
 							</li>
-						</ul> 
+						</ul>
 					</div>
 					<div ng-show="tabs.tab === 2">
 						<ul class="list-group">
@@ -133,7 +133,7 @@
 					<div ng-show="tabs.tab === 3">
 						<div class="text-center" ng-repeat="pokemon in pokeCtrl.pokemon.evolution">
 							<a href="#">
-								<img src="images/pokemons/{{ pokemon | lowercase }}.jpg" alt="{{ pokemon }}">
+								<img ng-src="{{ pokemon | imageify }}" alt="{{ pokemon }}">
 								<p>
 									<strong>{{ pokemon }}</strong>
 								</p>
@@ -142,8 +142,43 @@
 							<span ng-show="$last" class="glyphicon glyphicon-arrow-up">Subir</span>
 						</div>
 					</div>
-					<div>
-					</div>
+				</div>
+			</div>
+			<div ng-controller="CommentsController as comCtrl">
+				<button class="btn btn-primary" ng-hide="comCtrl.show" ng-click="toggle()">Mostrar comentarios <span class="badge">{{ comCtrl.comments.length }}</span></button>
+				<div class="panel panel-primary"><!-- ng-show="comCtrl.show" -->
+				  <div class="panel-heading">
+				    <h1 class="panel-title">Comments <button class="close pull-right" ng-click="toggle()">&times;</button></h1>
+				  </div>
+				  <div class="panel-body">
+				    <form ng-submit="commentsForm.$valid && comCtrl.addComment()" name="commentsForm" class="form-horizontal" role="form" novalidate>
+				      <div class="form-group">
+				        <div class="col-sm-6">
+				          <textarea ng-model="comCtrl.comment.body" placeholder="Please tell us what you think about {{ pokeCtrl.pokemon.name }}" class="form-control" required></textarea>
+				        </div>
+				        <div class="col-sm-4">
+				          <input ng-model="comCtrl.comment.email" ng-disabled="comCtrl.comment.anonymous" type="email" placeholder="Please enter your email address" class="form-control" ng-required="!comCtrl.comment.anonymous">
+				          <label>
+				            <input ng-model="comCtrl.comment.anonymous" ng-change="comCtrl.anonymousChanged()" id="anonymous" type="checkbox">
+				            Anonymous
+				          </label>
+				        </div>
+				        <div class="col-sm-2">
+				          <button type="submit" class="btn btn-lg">Comment</button>
+				        </div>
+				      </div>
+				    </form>
+				    <div ng-if="!commentsForm.$valid" class="alert alert-danger">Formulario Invalido</div>
+				    <blockquote ng-repeat="comment in comCtrl.comments"><!--ng-repeat="comment in comCtrl.comments" ng-repeat="comment in comments"-->
+				      <p>{{ comment.body }}</p>
+				      <footer>
+				        Comment by
+				        <a ng-if="!comment.anonymous" href="mailto:{{ comment.email }}">{{ comment.email }}</a>
+				        <em ng-if="comment.anonymous">Anonymous</em>
+				        on <span>{{ comment.date | date:'medium' }}</span>
+				      </footer>
+				    </blockquote>
+				  </div>
 				</div>
 			</div>
 		</div>
