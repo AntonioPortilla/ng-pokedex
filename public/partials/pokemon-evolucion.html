@@ -1,0 +1,10 @@
+<div class="text-center" ng-repeat="pokemon in pokeCtrl.pokemon.evolution">
+	<a href="#">
+		<img ng-src="{{ pokemon | imageify }}" alt="{{ pokemon }}">
+		<p>
+			<strong>{{ pokemon }}</strong>
+		</p>
+	</a>
+	<span ng-hide="$last" class="glyphicon glyphicon-arrow-down"></span>
+	<span ng-show="$last" class="glyphicon glyphicon-arrow-up">Subir</span>
+</div>

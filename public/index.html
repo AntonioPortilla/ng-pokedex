@@ -53,15 +53,11 @@
 <div class="container">
 	<div class="pokemon" ng-controller="PokemonController as pokeCtrl">
 		<div class="page-header">
-			<h1>
-				{{ pokeCtrl.pokemon.name | uppercase }}
-				<small>{{ pokeCtrl.pokemon.specie | lowercase }}</small>
-				<span class="label label-primary pull-right">#{{ pokeCtrl.pokemon.id }}</span>
-			</h1>
+			<pokemon-nombre></pokemon-nombre>
 		</div>
 		<div class="row">
 			<div class="col-md-6">
-				<img class="avatar center-block" ng-src="{{ pokeCtrl.pokemon.name | imageify }}" alt="pokemon">
+				<pokemon-imagen></pokemon-imagen>
 			</div>
 			<div ng-controller="TabsController as tabs" class="col-md-6">
 				<ul class="nav nav-tabs nav-justified">
@@ -71,122 +67,28 @@
 				</ul>
 				<div class="tab-content">
 					<div ng-show="tabs.tab === 1">
-						<ul class="list-group">
-							<li class="list-group-item">
-								<strong>Tipo</strong>
-								<span class="pull-right">
-									<span ng-repeat="type in pokeCtrl.pokemon.type" class="label label-success type type-{{ type | lowercase }}">{{ type }}</span>
-								</span>
-							</li>
-							<li class="list-group-item">
-								<strong>Width</strong>
-								<span class="pull-right">
-									{{ pokeCtrl.pokemon.width }}
-								</span>
-							</li>
-							<li class="list-group-item">
-								<strong>Height</strong>
-								<span class="pull-right">
-									{{ pokeCtrl.pokemon.height }}
-								</span>
-							</li>
-							<li class="list-group-item">
-								<strong>Habilidad</strong>
-								<span class="pull-right">
-									{{ pokeCtrl.pokemon.abilities | limitTo:2 }}
-								</span>
-							</li>
-						</ul>
+						<pokemon-data></pokemon-data>
 					</div>
 					<div ng-show="tabs.tab === 2">
-						<ul class="list-group">
-							<li class="list-group-item">
-								<strong>HP</strong>
-								<span class="pull-right">{{ pokeCtrl.pokemon.stats.hp }}</span>
-							</li>
-							<li class="list-group-item">
-								<strong>Ataque</strong>
-								<span class="pull-right">{{ pokeCtrl.pokemon.stats.attack }}</span>
-							</li>
-							<li class="list-group-item">
-								<strong>Defensa</strong>
-								<span class="pull-right">{{ pokeCtrl.pokemon.stats.defense }}</span>
-							</li>
-							<li class="list-group-item">
-								<strong>Ataque Especial</strong>
-								<span class="pull-right">{{ pokeCtrl.pokemon.stats['sp.atk'] }}</span>
-							</li>
-							<li class="list-group-item">
-								<strong>Defensa Especial</strong>
-								<span class="pull-right">{{ pokeCtrl.pokemon.stats['sp.def'] }}</span>
-							</li>
-							<li class="list-group-item">
-								<strong>Velocidad</strong>
-								<span class="pull-right">{{ pokeCtrl.pokemon.stats.speed }}</span>
-							</li>
-							<li class="list-group-item">
-								<strong>Total</strong>
-								<span class="pull-right">{{ pokeCtrl.pokemon.stats.total }}</span>
-							</li>
-						</ul>
+						<pokemon-estadisticas></pokemon-estadisticas>
 					</div>
 					<div ng-show="tabs.tab === 3">
-						<div class="text-center" ng-repeat="pokemon in pokeCtrl.pokemon.evolution">
-							<a href="#">
-								<img ng-src="{{ pokemon | imageify }}" alt="{{ pokemon }}">
-								<p>
-									<strong>{{ pokemon }}</strong>
-								</p>
-							</a>
-							<span ng-hide="$last" class="glyphicon glyphicon-arrow-down"></span>
-							<span ng-show="$last" class="glyphicon glyphicon-arrow-up">Subir</span>
-						</div>
+						<pokemon-evolucion></pokemon-evolucion>
 					</div>
 				</div>
 			</div>
-			<div ng-controller="CommentsController as comCtrl">
-				<button class="btn btn-primary" ng-hide="comCtrl.show" ng-click="toggle()">Mostrar comentarios <span class="badge">{{ comCtrl.comments.length }}</span></button>
-				<div class="panel panel-primary"><!-- ng-show="comCtrl.show" -->
-				  <div class="panel-heading">
-				    <h1 class="panel-title">Comments <button class="close pull-right" ng-click="toggle()">&times;</button></h1>
-				  </div>
-				  <div class="panel-body">
-				    <form ng-submit="commentsForm.$valid && comCtrl.addComment()" name="commentsForm" class="form-horizontal" role="form" novalidate>
-				      <div class="form-group">
-				        <div class="col-sm-6">
-				          <textarea ng-model="comCtrl.comment.body" placeholder="Please tell us what you think about {{ pokeCtrl.pokemon.name }}" class="form-control" required></textarea>
-				        </div>
-				        <div class="col-sm-4">
-				          <input ng-model="comCtrl.comment.email" ng-disabled="comCtrl.comment.anonymous" type="email" placeholder="Please enter your email address" class="form-control" ng-required="!comCtrl.comment.anonymous">
-				          <label>
-				            <input ng-model="comCtrl.comment.anonymous" ng-change="comCtrl.anonymousChanged()" id="anonymous" type="checkbox">
-				            Anonymous
-				          </label>
-				        </div>
-				        <div class="col-sm-2">
-				          <button type="submit" class="btn btn-lg">Comment</button>
-				        </div>
-				      </div>
-				    </form>
-				    <div ng-if="!commentsForm.$valid" class="alert alert-danger">Formulario Invalido</div>
-				    <blockquote ng-repeat="comment in comCtrl.comments"><!--ng-repeat="comment in comCtrl.comments" ng-repeat="comment in comments"-->
-				      <p>{{ comment.body }}</p>
-				      <footer>
-				        Comment by
-				        <a ng-if="!comment.anonymous" href="mailto:{{ comment.email }}">{{ comment.email }}</a>
-				        <em ng-if="comment.anonymous">Anonymous</em>
-				        on <span>{{ comment.date | date:'medium' }}</span>
-				      </footer>
-				    </blockquote>
-				  </div>
-				</div>
-			</div>
+			<!--div ng-controller="CommentsController as comCtrl"> -->
+				<pokemon-comentario></pokemon-comentario>
+			<!--</div>-->
 		</div>
 	</div>
 </div>
-	<script src="js/lib/underscore-min.js"></script>
+	<!--<script src="js/lib/underscore-min.js"></script> -->
 	<script src="js/lib/angular.min.js"></script>
-	<script src="js/lib/angular-route.min.js"></script>
+	<!--<script src="js/lib/angular-route.min.js"></script>-->
 	<script src="js/app.js"></script>
+	<script src="js/controllers.js"></script>
+	<script src="js/directives.js"></script>
+	<script src="js/filters.js"></script>
 </body>
 </html>
