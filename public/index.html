@@ -2,7 +2,7 @@
 <html lang="en" ng-app="pokedex">
 <head>
 	<meta charset="UTF-8">
-	<title>Pokemon new</title>
+	<title>Pokemon new 1</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme-cerulean.css">
@@ -51,44 +51,15 @@
   </div>
 </nav>
 <div class="container">
-	<div class="pokemon" ng-controller="PokemonController as pokeCtrl">
-		<div class="page-header">
-			<pokemon-nombre></pokemon-nombre>
-		</div>
-		<div class="row">
-			<div class="col-md-6">
-				<pokemon-imagen></pokemon-imagen>
-			</div>
-			<div ng-controller="TabsController as tabs" class="col-md-6">
-				<ul class="nav nav-tabs nav-justified">
-					<li ng-class="{ active : tabs.tab === 1 }"><a ng-click="tabs.selectTab(1)">Pokedex</a></li>
-					<li ng-class="{ active : tabs.tab === 2 }"><a ng-click="tabs.selectTab(2)">Estadísticas</a></li>
-					<li ng-class="{ active : tabs.tab === 3 }"><a ng-click="tabs.selectTab(3)">Evolución</a></li>
-				</ul>
-				<div class="tab-content">
-					<div ng-show="tabs.tab === 1">
-						<pokemon-data></pokemon-data>
-					</div>
-					<div ng-show="tabs.tab === 2">
-						<pokemon-estadisticas></pokemon-estadisticas>
-					</div>
-					<div ng-show="tabs.tab === 3">
-						<pokemon-evolucion></pokemon-evolucion>
-					</div>
-				</div>
-			</div>
-			<!--div ng-controller="CommentsController as comCtrl"> -->
-				<pokemon-comentario></pokemon-comentario>
-			<!--</div>-->
-		</div>
-	</div>
+	<div ng-view></div>
 </div>
 	<!--<script src="js/lib/underscore-min.js"></script> -->
 	<script src="js/lib/angular.min.js"></script>
-	<!--<script src="js/lib/angular-route.min.js"></script>-->
+	<script src="js/lib/angular-route.min.js"></script>
 	<script src="js/app.js"></script>
 	<script src="js/controllers.js"></script>
 	<script src="js/directives.js"></script>
 	<script src="js/filters.js"></script>
+  <script src="js/services.js"></script>
 </body>
 </html>

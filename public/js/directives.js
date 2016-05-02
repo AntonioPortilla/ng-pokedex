@@ -1,5 +1,23 @@
 (function(){
 	angular.module('pokedex.directives', [])
+	.directive('pokeImg', function () {
+		return {
+			restrict: 'E',
+			templateUrl: 'partials/poke-img.html'
+		};
+	})
+	.directive('pokeName', function () {
+		return {
+			restrict: 'E',
+			templateUrl: 'partials/poke-name.html'
+		};
+	})
+	.directive('pokemonType', function () {
+		return {
+			restrict: 'E',
+			templateUrl: 'partials/pokemon-type.html'
+		};
+	})
 	.directive('pokemonImagen', function () {
 		return {
 			restrict: 'E',
@@ -30,32 +48,46 @@
 			templateUrl: 'partials/pokemon-evolucion.html'
 		};
 	})
-	.directive('pokemonComentario', function () {
+	.directive('pokemonComentario', ['pokeService', function (pokeService) {
 		return {
-			restrict: 'E', //A no muestra,
+			restrict: 'E', //A no muestra, tipo Elemento
 			templateUrl: 'partials/pokemon-comentario.html',
-			controller: function(){
-				this.comments = [];
-				this.comment = {}; //objeto literal de javascript
-				this.show = false;
+			scope: {
+				name: '@name'
+			},
+			link: function(scope, element, attributes){
+				attributes.$observe('name', function(value){
+					if(value){
+						scope.name = name,
+						scope.comments = pokeService.getComments(value);
+					}
 
-				this.toggle = function(){
-					this.show = !this.show; //boleano
+				});
+			},
+			controller: function($scope){
+				$scope.comments = [];
+				$scope.comment = {}; //objeto literal de javascript
+				$scope.show = false;
+
+				$scope.toggle = function(){
+					$scope.show = !$scope.show; //boleano
 				};
 
-				this.anonymousChanged = function(){
-					if(this.comment.anonymous){
-						this.comment.email = "";
+				$scope.anonymousChanged = function(){
+					if($scope.comment.anonymous){
+						$scope.comment.email = "";
 					};
 				};
 
-				this.addComment = function(){
-					this.comment.date = Date.now();
-					this.comments.push(this.comment);
-					this.comment = {}; //limpiar o setear los comoentarios
+				$scope.addComment = function(){
+					$scope.comment.date = Date.now();
+					pokeService.saveComment($scope.name, $scope.comment);
+					$scope.comments = pokeService.getComments($scope.name);
+					//$scope.comments.push($scope.comment);
+					$scope.comment = {}; //limpiar o setear los comoentarios
 				};
-			},
-			controllerAs: 'comCtrl'
+			}
+			//controllerAs: 'comCtrl'
 		};
-	});
+	}]);
 })();
